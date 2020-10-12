@@ -19,11 +19,11 @@ errd="`echo $derr | sed 's/-/\ /'`"
 ```
 # 2. IP адреса с наибольшим количеством запросов (15)
 ```ruby
-awk -F" " '{print $1}' access.log | sort | uniq -c | sort -nr | head -15
+awk -F" " '{print $1}' access-4560-644067.log | sort | uniq -c | sort -nr | head -15
 ```
 # 3. Запрашиваемые url с наибольшим количеством запросов (15)
 ```ruby
-awk -F" " '{print $7}' access.log | sort | uniq -c | sort -nr | head -15
+awk -F" " '{print $7}' access-4560-644067.log | sort | uniq -c | sort -nr | head -15
 ```
 # 4. Все ошибки
 ```ruby
@@ -31,7 +31,7 @@ cat error.log | grep "$errd"
 ```
 # 5. Http коды возврата и их количество (15)
 ```ruby
-awk -F" " '{print $9}' access.log | sort | uniq -c | sort -nr
+awk -F" " '{print $9}' access-4560-644067.log | sort | uniq -c | sort -nr
 ```
 Добавляем к этим запросам фильтрацию по дате ($dacc) и указание откуда брать файлы логов ($LOGDIR), параметр количества записеей ($COUNT):
 ```ruby
