@@ -2,9 +2,9 @@
 
 # Парметры конфигурации скрипта
 IFS=$' '
-PIDFILE=/var/run/wlen.pid
+PIDFILE=/var/run/mytestpidfile.pid
 LOGDIR=logs
-LOGFILE=/var/log/wlen.log
+LOGFILE=/var/log/mytestlogfile.log
 recipient="vagrant@localhost"
 XCOUNT=15
 YCOUNT=15
