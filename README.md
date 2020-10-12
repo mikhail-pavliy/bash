@@ -5,8 +5,8 @@ PIDFILE=/var/run/wlen.pid     # укажем pid файл
 LOGDIR=logs                   # укажем директорию с логами
 LOGFILE=/var/log/wlen.log     # укажем лог файл скрипта
 recipient="vagrant@localhost" # укажем адрес, куда посылать письма
-XCOUNT=30                     # укажем количество записей, которые будут включены в письмо
-YCOUNT=30
+XCOUNT=15                     # укажем количество записей, которые будут включены в письмо
+YCOUNT=15
 
 # date setup                  # установим дату, начиная от текущей, за которую нам нужны сведения 
                                   
@@ -17,19 +17,19 @@ dacc="`date --date="$hourago" +"%d/%b/%Y:%H"`"
 derr="`date --date="$hourago" +"%Y/%m/%d-%H"`"
 errd="`echo $derr | sed 's/-/\ /'`"
 ```
-# 2. IP адреса с наибольшим количеством запросов (20)
+# 2. IP адреса с наибольшим количеством запросов (15)
 ```ruby
-awk -F" " '{print $1}' access.log | sort | uniq -c | sort -nr | head -20
+awk -F" " '{print $1}' access.log | sort | uniq -c | sort -nr | head -15
 ```
-# 3. Запрашиваемые url с наибольшим количеством запросов (20)
+# 3. Запрашиваемые url с наибольшим количеством запросов (15)
 ```ruby
-awk -F" " '{print $7}' access.log | sort | uniq -c | sort -nr | head -20
+awk -F" " '{print $7}' access.log | sort | uniq -c | sort -nr | head -15
 ```
 # 4. Все ошибки
 ```ruby
 cat error.log | grep "$errd"
 ```
-# 5. Http коды возврата и их количество (20)
+# 5. Http коды возврата и их количество (15)
 ```ruby
 awk -F" " '{print $9}' access.log | sort | uniq -c | sort -nr
 ```
@@ -37,17 +37,12 @@ awk -F" " '{print $9}' access.log | sort | uniq -c | sort -nr
 ```ruby
 cat $LOGDIR/access.log | grep "$dacc" | awk '{print $1}' | sort | uniq -c | sort -nr | head -$COUNT
 ```
-Перед этим вычисляем дату, нужно что бы было 1 час назад:
+Вычисляем дату, нужно что бы было 1 час назад:
 ```ruby
 hourago="1 hour ago"
 dacc="`date --date="$hourago" +"%d/%b/%Y:%H"`
 ```
 Добавим скрипт в cron с условием запуска раз в час:
 ```ruby
-* */1 * * *  root /bin/sh /web_log_email_notify.sh >/var/log/wlen.log 2>&1
-```
-с перенаправлением лога самого скрипта в файл.
-```ruby
-mail -u vagrant
- U 42 no-reply@localhost.l Fri Nov 9 12:10 34/789 "hourly web server report"
+* */1 * * *  root /bin/sh /script.sh >/var/log/wlen.log 2>&1
 ```
