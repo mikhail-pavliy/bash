@@ -17,7 +17,6 @@ dacc="`date --date="$hourago" +"%d/%b/%Y:%H"`"
 derr="`date --date="$hourago" +"%Y/%m/%d-%H"`"
 errd="`echo $derr | sed 's/-/\ /'`"
 
-# functions
 send_email()
 {
         (
